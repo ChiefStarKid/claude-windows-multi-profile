@@ -72,6 +72,34 @@ robocopy $src C:\ClaudeProfiles\B\app /MIR /R:1 /W:1   # exit codes 0-7 are succ
 
 If access to `WindowsApps` is denied, run PowerShell as administrator for that step.
 
+## What the diagnose script prints
+
+Healthy setup: Profile B (private copy) running, Profile A (Store) closed, junction in place. Paths shortened.
+
+```
+== Versions
+Store package : <store version>   (C:\Program Files\WindowsApps\Claude_<store version>_x64__pzs8sxrjxfjjc)
+Private copy  : <copy version>   (C:\ClaudeProfiles\B\app)
+
+== Running instances (grouped by exe path)
+13 process(es)  exe: C:\ClaudeProfiles\B\app\claude.exe
+    user-data-dir: C:\ClaudeProfiles\B\electron-data
+
+== Store data-location trap
+Claude-Data exists. A junction here is the intended fix; a real folder means the Store build relocated data:
+    claude_pzs8sxrjxfjjc  [Junction -> ...\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Local\Claude-A]
+
+Last relevant lines in ...\Claude\logs\main.log
+    [info] [user-data-move] already_moved_behind_link { blocked: null, hosts: null }
+    [info] [updater] Version changed since last launch: <old> → <new>
+```
+
+A real folder instead of a junction, or an instance with `(none - uses the app default!)` as its data dir, is the signal that something is wrong.
+
+## Questions, problems, other setups
+
+Open an [issue](../../issues). If your Store build behaves differently (or the data-location behaviour has changed), the `[user-data-move]` and `token cache location` lines from your `main.log` are the most useful thing to include. Redact any account identifiers first.
+
 ## Caveats
 
 - Behaviour described here was observed on Windows 11 with the Store build in October-November 2026. Anthropic can change how the app handles data location or instances at any time. Treat the log lines, not this document, as the source of truth.
