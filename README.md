@@ -98,7 +98,7 @@ A real folder instead of a junction, or an instance with `(none - uses the app d
 
 ## Questions, problems, other setups
 
-Open an [issue](../../issues). If your Store build behaves differently (or the data-location behaviour has changed), the `[user-data-move]` and `token cache location` lines from your `main.log` are the most useful thing to include. Redact any account identifiers first.
+Open an [issue](../../issues), or email info@kainosis.com. If your Store build behaves differently (or the data-location behaviour has changed), the `[user-data-move]` and `token cache location` lines from your `main.log` are the most useful thing to include. Redact any account identifiers first.
 
 ## Caveats
 
